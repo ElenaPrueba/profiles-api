@@ -65,7 +65,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 class ProfileFeedItem(models.Model): # Nuevo módulo para nuestros Perfiles de usuario FeedItem
     """Actualización del estado del perfil"""
 
-    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE ) # on_delete: qué hacer si el ususario ha sido eliminado
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE) # on_delete: qué hacer si el ususario ha sido eliminado
     status_text = models.CharField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
 

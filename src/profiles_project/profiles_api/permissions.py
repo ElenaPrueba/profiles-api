@@ -11,3 +11,15 @@ class UpdateOwnProfile(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.id == request.user.id
+
+
+# Permisos para ProfileFeedItem
+class PostOwnStatus(permissions.BasePermission):
+    """ Permite a los usuarios actualizar su estado"""
+
+    def has_object_permission(self, request, view, obj):
+        """Comprueba que el usuario está intentando actualizar su propio estado"""
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.user_profile.id == request.user.id

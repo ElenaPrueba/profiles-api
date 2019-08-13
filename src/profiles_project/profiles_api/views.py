@@ -13,6 +13,8 @@ from rest_framework import filters
 
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
 from . import serializers
 from . import models
@@ -124,7 +126,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
 
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (permissions.UpdateOwnProfile,)
+
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email',)
@@ -139,3 +141,18 @@ class LoginViewSet(viewsets.ViewSet):
         """Utiliza el ObtainAuthToken APIView para validar y crear un token"""
 
         return ObtainAuthToken().post(request)
+
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Encargado de la creación y la actualización de los perfiles de usuario FeedItem"""
+
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticated)# IsAuthenticatedOrReadOnly
+
+    def perform_create(self, serializer):
+        """Establece el perfil de usuario como usuario registrado"""
+
+        serializer.save(user_profile=self.request.user)
