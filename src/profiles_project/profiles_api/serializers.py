@@ -19,7 +19,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         """Crear y devolver un nuevo usuario"""
 
         user = models.UserProfile(
-            email= validted_data['email'],
+            email= validated_data['email'],
             name=validated_data['name']
             )
 
