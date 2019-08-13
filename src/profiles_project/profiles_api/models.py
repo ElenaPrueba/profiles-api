@@ -60,3 +60,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Django utiliza esto cuando necesita convertir un objeto en una cadena"""
         return self.email
+
+
+class ProfileFeedItem(models.Model): # Nuevo módulo para nuestros Perfiles de usuario FeedItem
+    """Actualización del estado del perfil"""
+
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE ) # on_delete: qué hacer si el ususario ha sido eliminado
+    status_text = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Devuelve el modelo como una cadena"""
+
+        return self.status_text
